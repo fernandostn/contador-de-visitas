@@ -16,6 +16,11 @@ jobs:
       # - name: Lint app code
       #   run: pylint ./src/app.py
 
+      - name: Lint Dockerfile
+        uses: hadolint/hadolint-action@master
+        with:
+          dockerfile: ./src/Dockerfile
+      
       - name: Log into registry
         uses: docker/login-action@v3.1.0
         with:
