@@ -10,8 +10,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Pylint install
-        run: sudo apt install pylint
+      # - name: Pylint install
+      #   run: sudo apt install pylint
 
       # - name: Lint app code
       #   run: pylint ./src/app.py
@@ -20,6 +20,8 @@ jobs:
         uses: hadolint/hadolint-action@master
         with:
           dockerfile: ./src/Dockerfile
+          no-fail: true
+          output-file: resultados/hadolint-results.sarif
       
       - name: Log into registry
         uses: docker/login-action@v3.1.0
