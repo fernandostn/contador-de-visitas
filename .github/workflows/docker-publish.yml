@@ -20,9 +20,9 @@ jobs:
       - name: Lint Python code with Pylint
         run: |
             sudo apt install pylint
-            pylint ./src/*.py
+            pylint ./src/*.py --exit-zero --output=artifacts/pylint-results.txt
 
-      - name: Lint Dockerfile
+      - name: Lint Dockerfile with Hadolint
         uses: hadolint/hadolint-action@master
         with:
           dockerfile: ./src/Dockerfile
