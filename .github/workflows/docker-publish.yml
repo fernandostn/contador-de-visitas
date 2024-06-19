@@ -48,3 +48,14 @@ jobs:
           tags: |
             fernandostn/contador-de-visitas:${{ github.run_number }}.0
             fernandostn/contador-de-visitas:latest
+                  - name: Run Trivy vulnerability scanner
+        
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@0.20.0
+        with:
+          image-ref: 'docker.io/my-organization/my-app:${{ github.sha }}'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
