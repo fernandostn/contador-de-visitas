@@ -12,6 +12,12 @@ jobs:
 
       - name: Artifacts folder
         run: mkdir artifacts
+      
+      - name: Create Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          path: artifacts
+          name: errors
 
       # - name: Pylint install
       #   run: sudo apt install pylint
