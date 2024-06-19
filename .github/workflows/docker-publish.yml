@@ -10,6 +10,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Artifacts folder
+        run: mkdir artifacts
+
       # - name: Pylint install
       #   run: sudo apt install pylint
 
@@ -21,7 +24,7 @@ jobs:
         with:
           dockerfile: ./src/Dockerfile
           no-fail: true
-          output-file: resultados/hadolint-results.sarif
+          output-file: artifacts/hadolint-results.sarif
           format: sarif
       
       - name: Log into registry
