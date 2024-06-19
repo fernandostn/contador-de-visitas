@@ -17,11 +17,10 @@ jobs:
       - name: Artifacts folder
         run: mkdir artifacts
       
-      # - name: Pylint install
-      #   run: sudo apt install pylint
-
-      # - name: Lint app code
-      #   run: pylint ./src/app.py
+      - name: Lint Python code with Pylint
+        run: |
+            sudo apt install pylint
+            pylint ./src/*.py
 
       - name: Lint Dockerfile
         uses: hadolint/hadolint-action@master
