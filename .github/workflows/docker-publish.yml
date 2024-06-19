@@ -13,12 +13,6 @@ jobs:
       - name: Artifacts folder
         run: mkdir artifacts
       
-      - name: Create Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          path: artifacts
-          name: errors
-
       # - name: Pylint install
       #   run: sudo apt install pylint
 
@@ -32,7 +26,13 @@ jobs:
           no-fail: true
           output-file: artifacts/hadolint-results.sarif
           format: sarif
-      
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          path: artifacts
+          name: errors
+        
       - name: Log into registry
         uses: docker/login-action@v3.1.0
         with:
