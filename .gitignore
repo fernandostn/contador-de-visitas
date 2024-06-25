@@ -1,4 +1,4 @@
 .vscode
 .terraform
 .terraform.lock.hcl
-*.out
+plan.out
