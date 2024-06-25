@@ -86,6 +86,11 @@ module "eks" {
       desired_size = 2
 
       instance_types = [var.instance_type]
+
+      tags = {
+        owner      = var.owner
+        managed-by = var.managed_by
+      }
     }
   }
 
@@ -95,4 +100,48 @@ module "eks" {
     owner      = var.owner
     managed-by = var.managed_by
   }
+}
+
+module "argocd" {
+  source  = "terraform-module/release/helm"
+  version = "2.6.0"
+
+  namespace  = "argocd"
+  repository =  "https://argoproj.github.io/argo-helm"
+
+  app = {
+    name          = "argocd"
+    version       = "3.35.4"
+    chart         = "argo-cd"
+    force_update  = true
+    wait          = true
+    recreate_pods = true
+    deploy        = 1
+  }
+  values = [file("./helm-release/argocd-values.yaml")]
+}
+
+module "cert_manager" {
+  source        = "terraform-iaac/cert-manager/kubernetes"
+
+  cluster_issuer_email                   = "fernandostn@gmail.com"
+  cluster_issuer_name                    = "cert-manager-global"
+  cluster_issuer_private_key_secret_name = "cert-manager-private-key"
+}
+
+module "nginx-controller" {
+  source  = "terraform-iaac/nginx-controller/helm"
+
+  additional_set = [
+    {
+      name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-type"
+      value = "nlb"
+      type  = "string"
+    },
+    {
+      name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-cross-zone-load-balancing-enabled"
+      value = "true"
+      type  = "string"
+    }
+  ]
 }
