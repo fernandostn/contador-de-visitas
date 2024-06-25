@@ -119,6 +119,17 @@ module "argocd" {
     deploy        = 1
   }
   values = [file("./helm-release/argocd-values.yaml")]
+
+  set = [
+    {
+      name  = "labels.kubernetes\\.io/name"
+      value = "argocd"
+    },
+    {
+      name  = "service.labels.kubernetes\\.io/name"
+      value = "argocd"
+    },
+  ]
 }
 
 module "cert_manager" {
