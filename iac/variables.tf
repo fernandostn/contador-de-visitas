@@ -37,8 +37,3 @@ variable "instance_type" {
   description = "Instance type used in the EKS Cluster Node Group"
   type        = string
 }
-
-variable "teste" {
-  description = "teste"
-  type        = string
-}
