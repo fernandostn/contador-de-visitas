@@ -24,4 +24,5 @@ jobs:
       - name: Terraform Destroy
         run: |
           cd iac/
+          terraform init
           terraform destroy --auto-approve
