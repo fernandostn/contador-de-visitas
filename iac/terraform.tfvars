@@ -1,0 +1,8 @@
+region =  "us-west-2"
+owner = "Fernando Santana"
+managed_by = "IAC Terraform"
+vpc_cidr = "10.0.0.0/16"
+vpc_name = "contador-de-visitas-vpc"
+cluster_name = "contador-de-visitas-eks"
+cluster_version = "1.30"
+instance_type = "t3.small"

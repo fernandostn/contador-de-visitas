@@ -1,31 +1,3 @@
-terraform {
-  required_version = ">=1.0.3"
-
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "5.48.0"
-    }
-  }
-
-  backend "s3" {
-    bucket = "fss-remotestate2"
-    key    = "aws/terraform.tfstate.contador-de-visitas"
-    region = "us-west-2"
-  }
-}
-
-provider "aws" {
-  region = var.region
-
-  default_tags {
-    tags = {
-      owner      = var.owner
-      managed-by = var.managed_by
-    }
-  }
-}
-
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
@@ -39,8 +11,8 @@ module "vpc" {
   enable_nat_gateway = true
 
   tags = {
-    owner      = var.owner
-    managed-by = var.managed_by
+    owner                                       = var.owner
+    managed-by                                  = var.managed_by
     "kubernetes.io/cluster/${var.cluster_name}" = "shared"
   }
 
@@ -102,12 +74,19 @@ module "eks" {
   }
 }
 
+resource "kubernetes_namespace" "argocd" {
+  metadata {
+    name = "argocd"
+  }
+}
+
+
 module "argocd" {
   source  = "terraform-module/release/helm"
   version = "2.6.0"
 
-  namespace  = "argocd"
-  repository =  "https://argoproj.github.io/argo-helm"
+  namespace  = kubernetes_namespace.argocd.id
+  repository = "https://argoproj.github.io/argo-helm"
 
   app = {
     name          = "argocd"
@@ -134,6 +113,9 @@ module "argocd" {
 
 module "cert_manager" {
   source        = "terraform-iaac/cert-manager/kubernetes"
+
+  create_namespace = true
+  namespace_name = "cert-manager"
 
   cluster_issuer_email                   = "fernandostn@gmail.com"
   cluster_issuer_name                    = "cert-manager-global"
