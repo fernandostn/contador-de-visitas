@@ -1,6 +1,8 @@
-name: CI Docker Build
+name: Docker Build
 on:
   push:
+    branches: ["main"]
+    paths: ["src/**"]
   workflow_dispatch:
 
 jobs:
@@ -11,7 +13,7 @@ jobs:
       security-events: write
       id-token: write
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Artifacts folder
