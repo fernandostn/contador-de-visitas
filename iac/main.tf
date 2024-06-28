@@ -122,6 +122,12 @@ module "cert_manager" {
   cluster_issuer_private_key_secret_name = "cert-manager-private-key"
 }
 
+resource "kubernetes_namespace" "ingress-nginx" {
+  metadata {
+    name = "ingress-nginx"
+  }
+}
+
 module "nginx-controller" {
   source  = "terraform-iaac/nginx-controller/helm"
   namespace = "ingress-nginx"
