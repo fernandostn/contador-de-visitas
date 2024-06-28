@@ -1,0 +1,42 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: contador-de-visitas
+  labels:
+    name: contador-de-visitas
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: contador-de-visitas
+  namespace: contador-de-visitas
+spec:
+  selector:
+    matchLabels:
+      app: contador-de-visitas
+  template:
+    metadata:
+      labels:
+        app: contador-de-visitas
+    spec:
+      containers:
+      - name: contador-de-visitas
+        image: fernandostn/contador-de-visitas:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 5000
+        env:
+          - name: REDIS_HOST
+            value: redis-svc
+      - name: redis
+        image: redislabs/redismod
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 6379
