@@ -5,8 +5,14 @@ metadata:
   labels:
     name: contador-de-visitas
   namespace: contador-de-visitas
+  annotations:
+    cert-manager.io/cluster-issuer: "cert-manager-global"
 spec:
   ingressClassName: nginx
+  tls:
+  - hosts:
+    - contador.fernandostn.com.br
+    secretName: contadorfernandostncombr-tls
   rules:
   - host: contador.fernandostn.com.br
     http:
