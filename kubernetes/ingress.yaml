@@ -6,7 +6,7 @@ metadata:
     name: contador-de-visitas
   namespace: contador-de-visitas
   annotations:
-    cert-manager.io/cluster-issuer: "cert-manager-global"
+    cert-manager.io/cluster-issuer: cert-manager-global
 spec:
   ingressClassName: nginx
   tls:
