@@ -8,7 +8,8 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - http:
+  - host: contador-de-visitas.fernandostn.com.br
+    http:
       paths:
       - pathType: Prefix
         path: /
