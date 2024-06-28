@@ -1,15 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: redis-svc
+  name: contador-de-visitas-redis-svc
   namespace: contador-de-visitas
   labels:
-    app: contador-de-visitas
+    app: contador-de-visitas-redis
 spec:
   ports:
   - port: 6379
     protocol: TCP
     targetPort: 6379
   selector:
-    app: contador-de-visitas
+    app: contador-de-visitas-redis
   type: ClusterIP

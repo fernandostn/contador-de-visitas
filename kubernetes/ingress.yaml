@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: contador-de-visitas
+  labels:
+    name: contador-de-visitas
+  namespace: contador-de-visitas
+spec:
+  rules:
+  - http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: contador-de-visitas-app-svc
+            port: 
+              number: 5000

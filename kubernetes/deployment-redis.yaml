@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: contador-de-visitas
+  name: contador-de-visitas-redis
   namespace: contador-de-visitas
 spec:
   selector:
     matchLabels:
-      app: contador-de-visitas
+      app: contador-de-visitas-redis
   template:
     metadata:
       labels:
-        app: contador-de-visitas
+        app: contador-de-visitas-redis
     spec:
       containers:
-      - name: redis
+      - name: contador-de-visitas-redis
         image: redislabs/redismod
         resources:
           limits:

@@ -1,15 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: contador-de-visitas
+  name: contador-de-visitas-app-svc
   namespace: contador-de-visitas
   labels:
-    app: contador-de-visitas
+    app: contador-de-visitas-app
 spec:
   ports:
   - port: 5000
     protocol: TCP
     targetPort: 5000
   selector:
-    app: contador-de-visitas
+    app: contador-de-visitas-app
   type: ClusterIP
