@@ -6,6 +6,7 @@ metadata:
     name: contador-de-visitas
   namespace: contador-de-visitas
 spec:
+  ingressClassName: nginx
   rules:
   - http:
       paths:
