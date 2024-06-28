@@ -124,6 +124,7 @@ module "cert_manager" {
 
 module "nginx-controller" {
   source  = "terraform-iaac/nginx-controller/helm"
+  namespace = "ingress-nginx"
 
   additional_set = [
     {
