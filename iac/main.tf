@@ -80,7 +80,6 @@ resource "kubernetes_namespace" "argocd" {
   }
 }
 
-
 module "argocd" {
   source  = "terraform-module/release/helm"
   version = "2.6.0"
@@ -112,14 +111,14 @@ module "argocd" {
 }
 
 module "cert_manager" {
-  source        = "terraform-iaac/cert-manager/kubernetes"
+  source = "terraform-iaac/cert-manager/kubernetes"
 
   create_namespace = true
-  namespace_name = "cert-manager"
+  namespace_name   = "cert-manager"
 
-  cluster_issuer_email                   = "fernandostn@gmail.com"
-  cluster_issuer_name                    = "cert-manager-global"
-  cluster_issuer_private_key_secret_name = "cert-manager-private-key"
+  cluster_issuer_email                   = var.cluster_issuer_email
+  cluster_issuer_name                    = var.cluster_issuer_name
+  cluster_issuer_private_key_secret_name = var.cluster_issuer_private_key_secret_name
 }
 
 resource "kubernetes_namespace" "ingress-nginx" {
@@ -129,7 +128,7 @@ resource "kubernetes_namespace" "ingress-nginx" {
 }
 
 module "nginx-controller" {
-  source  = "terraform-iaac/nginx-controller/helm"
+  source    = "terraform-iaac/nginx-controller/helm"
   namespace = "ingress-nginx"
 
   additional_set = [
@@ -144,4 +143,26 @@ module "nginx-controller" {
       type  = "string"
     }
   ]
+}
+
+resource "aws_route53_zone" "this" {
+  name = var.aws_route53_zone
+}
+
+data "kubernetes_service" "ingress_nginx" {
+  metadata {
+    name      = "ingress-nginx-controller"
+    namespace = "ingress-nginx"
+  }
+  depends_on = [
+    module.eks
+  ]
+}
+
+resource "aws_route53_record" "this" {
+  zone_id = aws_route53_zone.this.zone_id
+  name    = var.aws_route53_record
+  type    = "CNAME"
+  ttl     = "300"
+  records = [data.kubernetes_service.ingress_nginx.status.0.load_balancer.0.ingress.0.hostname]
 }
