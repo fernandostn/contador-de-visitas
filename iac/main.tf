@@ -167,6 +167,12 @@ resource "aws_route53_record" "this" {
   records = [data.kubernetes_service.ingress_nginx.status.0.load_balancer.0.ingress.0.hostname]
 }
 
+resource "kubernetes_namespace" "monitoring" {
+  metadata {
+    name = "monitoring"
+  }
+}
+
 resource "helm_release" "kube-prometheus" {
   name       = "kube-prometheus-stackr"
   namespace  = "monitoring"
