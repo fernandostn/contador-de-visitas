@@ -166,3 +166,11 @@ resource "aws_route53_record" "this" {
   ttl     = "300"
   records = [data.kubernetes_service.ingress_nginx.status.0.load_balancer.0.ingress.0.hostname]
 }
+
+resource "helm_release" "kube-prometheus" {
+  name       = "kube-prometheus-stackr"
+  namespace  = "monitoring"
+  # version    = var.kube-version
+  repository = "https://prometheus-community.github.io/helm-charts"
+  chart      = "kube-prometheus-stack"
+}
