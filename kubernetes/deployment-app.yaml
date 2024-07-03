@@ -4,7 +4,7 @@ metadata:
   name: contador-de-visitas-app
   namespace: contador-de-visitas
 spec:
-  replicas: 2
+  replicas: 5
   selector:
     matchLabels:
       app: contador-de-visitas-app
