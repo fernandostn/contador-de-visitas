@@ -145,27 +145,27 @@ module "nginx-controller" {
   ]
 }
 
-resource "aws_route53_zone" "this" {
-  name = var.aws_route53_zone
-}
+# resource "aws_route53_zone" "this" {
+#   name = var.aws_route53_zone
+# }
 
-data "kubernetes_service" "ingress_nginx" {
-  metadata {
-    name      = "ingress-nginx-controller"
-    namespace = "ingress-nginx"
-  }
-  depends_on = [
-    module.eks
-  ]
-}
+# data "kubernetes_service" "ingress_nginx" {
+#   metadata {
+#     name      = "ingress-nginx-controller"
+#     namespace = "ingress-nginx"
+#   }
+#   depends_on = [
+#     module.eks
+#   ]
+# }
 
-resource "aws_route53_record" "this" {
-  zone_id = aws_route53_zone.this.zone_id
-  name    = var.aws_route53_record
-  type    = "CNAME"
-  ttl     = "300"
-  records = [data.kubernetes_service.ingress_nginx.status.0.load_balancer.0.ingress.0.hostname]
-}
+# resource "aws_route53_record" "this" {
+#   zone_id = aws_route53_zone.this.zone_id
+#   name    = var.aws_route53_record
+#   type    = "CNAME"
+#   ttl     = "300"
+#   records = [data.kubernetes_service.ingress_nginx.status.0.load_balancer.0.ingress.0.hostname]
+# }
 
 # resource "kubernetes_namespace" "monitoring" {
 #   metadata {
